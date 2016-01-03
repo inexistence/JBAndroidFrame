@@ -18,7 +18,7 @@ public class JBApplication extends Application {
         sApplication = this;
         L.setLogOpen(AppConstant.LOG_OPEN);
 //        if (!AppConstant.DEBUG) {
-        CrashHandler.getsInstance().init(this);
+        CrashHandler.getInstance().init(this);
 //        }
     }
 
