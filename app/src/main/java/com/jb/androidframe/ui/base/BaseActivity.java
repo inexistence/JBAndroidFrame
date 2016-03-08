@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.jb.androidframe.app.constant.IntentConstant;
+import com.jb.androidframe.tools.L;
 
 /**
  * BaseActivity
@@ -19,8 +20,8 @@ public class BaseActivity extends AppCompatActivity {
 
     @CallSuper
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         if (null != intent) {
             fetchIntent(intent, intent.getBundleExtra(IntentConstant.INTENT_EXTRA_BUNDLE));

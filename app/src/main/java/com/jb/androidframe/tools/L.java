@@ -13,31 +13,40 @@ public final class L {
 	public static void setLogOpen(boolean open) {
 		LOG_OPEN = open;
 	}
-	
-	private static String getTag() {
+
+    private static TagPositionInfo getTagPosition() {
         StackTraceElement stackTrace = Thread.currentThread().getStackTrace()[4];
 
         String className = stackTrace.getClassName();
-        return TAG_HEAD + "/" + className.substring(className.lastIndexOf('.') + 1)
-                + "." + stackTrace.getMethodName() + "#" + stackTrace.getLineNumber();
+        String simpleClassName = className.substring(className.lastIndexOf('.') + 1);
+
+        String tag = TAG_HEAD + "/" + simpleClassName;
+        String position = " ("+simpleClassName+".java:"+stackTrace.getLineNumber()+")";
+        TagPositionInfo tagPositionInfo = new TagPositionInfo();
+        tagPositionInfo.tag = tag;
+        tagPositionInfo.logPosition = position;
+        return tagPositionInfo;
     }
 
     public static void d(String message, Object... args) {
     	if(!LOG_OPEN) return ;
         message = formatMessage(message, args);
-        Log.d(getTag(), message);
+        TagPositionInfo tagPositionInfo = getTagPosition();
+        Log.d(tagPositionInfo.tag, message + tagPositionInfo.logPosition);
     }
 
     public static void i(String message, Object... args) {
     	if(!LOG_OPEN) return ;
         message = formatMessage(message, args);
-        Log.i(getTag(), message);
+        TagPositionInfo tagPositionInfo = getTagPosition();
+        Log.i(tagPositionInfo.tag, message + tagPositionInfo.logPosition);
     }
 
     public static void w(String message, Object... args) {
     	if(!LOG_OPEN) return ;
         message = formatMessage(message, args);
-        Log.w(getTag(), message);
+        TagPositionInfo tagPositionInfo = getTagPosition();
+        Log.w(tagPositionInfo.tag, message + tagPositionInfo.logPosition);
     }
 
     public static void w(Throwable e) {
@@ -48,7 +57,8 @@ public final class L {
     public static void e(String message, Object... args) {
     	if(!LOG_OPEN) return ;
         message = formatMessage(message, args);
-        Log.e(getTag(), message);
+        TagPositionInfo tagPositionInfo = getTagPosition();
+        Log.e(tagPositionInfo.tag, message + tagPositionInfo.logPosition);
     }
 
     public static void e(Throwable e) {
@@ -59,7 +69,8 @@ public final class L {
     public static void v(String message, Object... args) {
     	if(!LOG_OPEN) return ;
         message = formatMessage(message, args);
-        Log.v(getTag(), message);
+        TagPositionInfo tagPositionInfo = getTagPosition();
+        Log.v(tagPositionInfo.tag, message + tagPositionInfo.logPosition);
     }
 
     private static String formatMessage(String message, Object... args) {
@@ -74,5 +85,10 @@ public final class L {
             }
         }
         return message;
+    }
+
+    private static class TagPositionInfo {
+        String tag;
+        String logPosition;
     }
 }
