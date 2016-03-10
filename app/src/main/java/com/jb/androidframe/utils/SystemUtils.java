@@ -343,4 +343,8 @@ public final class SystemUtils {
             return -1;
         }
     }
+
+    public static String getLineProperty() {
+        return System.getProperty("line.separator");
+    }
 }

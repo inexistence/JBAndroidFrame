@@ -1,16 +1,12 @@
 package com.jb.androidframe.ui.base;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.CallSuper;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.view.View;
 
 import com.jb.androidframe.app.constant.IntentConstant;
-import com.jb.androidframe.tools.L;
 
 /**
  * BaseActivity
@@ -18,19 +14,17 @@ import com.jb.androidframe.tools.L;
  */
 public class BaseActivity extends AppCompatActivity {
 
+    private Bundle mBundle;
+
     @CallSuper
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         if (null != intent) {
-            fetchIntent(intent, intent.getBundleExtra(IntentConstant.INTENT_EXTRA_BUNDLE));
+            mBundle = intent.getBundleExtra(IntentConstant.INTENT_EXTRA_BUNDLE);
+            fetchIntent(intent, mBundle);
         }
-    }
-
-    @Override
-    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-        return super.onCreateView(parent, name, context, attrs);
     }
 
     @Override
@@ -67,13 +61,17 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    protected void jumpToActivity(Class clazz) {
+    protected Bundle getBundle() {
+        return mBundle;
+    }
+
+    protected void toActivity(Class clazz) {
         Intent intent = new Intent();
         intent.setClass(this, clazz);
         startActivity(intent);
     }
 
-    protected void jumpToActivity(Class clazz, Bundle bundle) {
+    protected void toActivity(Class clazz, Bundle bundle) {
         Intent intent = new Intent();
         intent.setClass(this, clazz);
         intent.putExtra(IntentConstant.INTENT_EXTRA_BUNDLE, bundle);
