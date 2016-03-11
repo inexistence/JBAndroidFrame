@@ -14,7 +14,10 @@ public class TaskExecutor {
     private static ThreadPoolExecutorWrapper sThreadPoolExecutorWrapper;
 
     private static void ensureThreadExecutor() {
-        init(10, Integer.MAX_VALUE, 10);
+        if (sThreadPoolExecutorWrapper == null) {
+            int availableProcessors = Runtime.getRuntime().availableProcessors();
+            init(availableProcessors + 1, Integer.MAX_VALUE, (availableProcessors / 2) + 1);
+        }
     }
 
     public static void init(int maxTaskThread, int maxIdleTaskThread, int maxScheduleTaskThread) {
@@ -64,6 +67,7 @@ public class TaskExecutor {
     }
 
     public static void runTaskOnUiThread(Runnable task) {
+        ensureThreadExecutor();
         sThreadPoolExecutorWrapper.runTaskOnUiThread(task);
     }
 
