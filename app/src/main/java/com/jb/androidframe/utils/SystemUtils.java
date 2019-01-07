@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -25,6 +26,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
@@ -50,15 +52,6 @@ public final class SystemUtils {
      */
     public static String getDataTime() {
         return getDataTime("HH:mm");
-    }
-
-    /**
-     * 获取手机IMEI码
-     */
-    public static String getPhoneIMEI(Context cxt) {
-        TelephonyManager tm = (TelephonyManager) cxt
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        return tm.getDeviceId();
     }
 
     /**
